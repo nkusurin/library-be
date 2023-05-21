@@ -29,6 +29,10 @@ public class LoanService {
                 .map(loanMapper::toLoanDto)
                 .collect(Collectors.toList());
     }
+    
+    public void deleteLoanById(Long id) {
+        loanRepository.deleteById(id);
+    }
 
     public LoanDto createLoan(LoanDto loanDto) {
         Loan loan = loanMapper.toLoan(loanDto);
