@@ -1,0 +1,3 @@
+-Za kreiranje postgres baze u docker-u :
+
+docker run --name library-db -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 postgres

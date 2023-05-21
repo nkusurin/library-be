@@ -1,0 +1,130 @@
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.20.xsd">
+
+    <changeSet id="20230506" author="nkusurin">
+        <createTable tableName="publisher">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(30)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="address" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="phone" type="VARCHAR(20)">
+                <constraints nullable="true"/>
+            </column>
+        </createTable>
+
+    </changeSet>
+
+    <changeSet id="20230507" author="nkusurin">
+        <createTable tableName="genre">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(30)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="author">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(25)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="surname" type="VARCHAR(25)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20230508" author="nkusurin">
+        <createTable tableName="book">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="isbn" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="title" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(50)">
+                <constraints />
+            </column>
+            <column name="availability" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="genre_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="book_genre_fk"/>
+            </column>
+            <column name="publisher_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="book_publisher_fk"/>
+            </column>
+
+        </createTable>
+
+
+        <addForeignKeyConstraint baseColumnNames="genre_id"
+                                 baseTableName="book"
+                                 constraintName="book_genre_fk"
+                                 referencedColumnNames="id"
+                                 referencedTableName="genre"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"/>
+
+
+        <addForeignKeyConstraint baseColumnNames="publisher_id"
+                                 baseTableName="book"
+                                 constraintName="book_publisher_fk"
+                                 referencedColumnNames="id"
+                                 referencedTableName="publisher"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"/>
+
+
+
+
+    </changeSet>
+
+    <changeSet id="20230509" author="nkusurin">
+    <createTable tableName="loan">
+        <column name="id" type="BIGINT" autoIncrement="true">
+            <constraints primaryKey="true"/>
+        </column>
+        <column name="type" type="VARCHAR(30)">
+            <constraints nullable="false"/>
+        </column>
+        <column name="borrowed" type="DATE">
+            <constraints nullable="false"/>
+        </column>
+        <column name="returned" type="DATE">
+            <constraints/>
+        </column>
+        <column name="book_id" type="BIGINT">
+            <constraints nullable="false"/>
+        </column>
+
+
+
+    </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="book_id"
+                                 baseTableName="loan"
+                                 constraintName="book_loan_fk"
+                                 referencedColumnNames="id"
+                                 referencedTableName="book"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"/>
+
+    </changeSet>
+
+
+</databaseChangeLog>
