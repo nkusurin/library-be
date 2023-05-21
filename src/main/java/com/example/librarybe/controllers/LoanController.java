@@ -24,6 +24,17 @@ public class LoanController {
     public ResponseEntity<List<LoanDto>> getAllLoans() {
         return ResponseEntity.status(HttpStatus.OK).body(loanService.getAllLoans());
     }
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteLoanById(@PathVariable("id") Long id) {
+        try {
+            loanService.deleteLoanById(id);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 
     @PostMapping("/add-loan")
     public ResponseEntity<LoanDto> createLoan(@RequestBody LoanDto loanDto) {
